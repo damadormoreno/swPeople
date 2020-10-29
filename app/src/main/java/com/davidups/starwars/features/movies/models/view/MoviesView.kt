@@ -7,12 +7,10 @@ import java.io.Serializable
 data class MoviesView(
     val count: Int?,
     val next: String?,
-    val previus: String?,
+    val previous: String?,
     val results: MutableList<MovieView>?
 ) : Serializable {
     companion object {
         fun empty() = MoviesView(Int.empty(), String.empty(), String.empty(), mutableListOf())
     }
-
-    fun toMovies() = Movies(count, next, previus, results?.map { it.toMovie() }?.toMutableList())
 }

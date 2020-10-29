@@ -20,7 +20,7 @@ class MoviesListFragment : BaseFragment(R.layout.fragment_movies) {
 
     private val binding by viewBinding(FragmentMoviesBinding::bind)
 
-    private val moviesViewModel: MoviesViewModel by inject()
+    private val moviesViewModel: MoviesViewModel by
     private val movieAdapter: MovieAdapter by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -16,6 +16,4 @@ data class MovieView(
         fun empty() =
             MovieView(String.empty(), Int.empty(), String.empty(), String.empty(), String.empty())
     }
-
-    fun toMovie() = Movie(title, episodeId, openingCrawl, producer, releaseDate)
 }
