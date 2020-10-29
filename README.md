@@ -38,5 +38,5 @@ Damn it! It seems the project has some kind of errors...could you help us to fix
 ### Once you've finished
 
 1.  Generate the application apk and place it into a distribution folder 📱
-2.  Notify by email to  [rrhh@talentomobile.com](mailto:rrhh@talentomobile.com)  which branch of your repo you want our Android team analyze or send us the project folder (including the .git) 💻
+2.  Notify by email to  [seleccion@talentomobile.com](mailto:seleccion@talentomobile.com)  which branch of your repo you want our Android team analyze or send us the project folder (including the .git) 💻
 3.  Have a beer after the work done ✨
