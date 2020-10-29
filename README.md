@@ -1,6 +1,6 @@
 # TalentoMobile Android Challenge 🚀
 
-idealista Android crew needs you! We need a fellow to face our everyday challenges: new features, problem fixes, UI design, performance, security, backwards compatibility, testing...
+TalentoMobile Android crew needs you! We need a fellow to face our everyday challenges: new features, problem fixes, UI design, performance, security, backwards compatibility, testing...
 
 This repository contains a project ready to work with, but we need your help to build the next amazing features that will bring it to the next level, are you ready to go?
 
