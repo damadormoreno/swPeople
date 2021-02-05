@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import com.davidups.skell.BuildConfig
 import com.davidups.skell.core.platform.ContextHandler
 import com.davidups.skell.core.platform.NetworkHandler
-import com.davidups.starwars.features.movies.view.adapters.MovieAdapter
+import com.davidups.starwars.features.people.view.adapters.PeopleAdapter
 import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -44,7 +44,7 @@ val applicationModule = module(override = true) {
         )
     }
 
-    factory { MovieAdapter() }
+    factory { PeopleAdapter() }
 }
 
 private fun createClient(): OkHttpClient {

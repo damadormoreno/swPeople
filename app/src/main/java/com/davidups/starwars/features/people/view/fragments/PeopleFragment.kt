@@ -1,4 +1,4 @@
-package com.davidups.starwars.features.movies.view.fragments
+package com.davidups.starwars.features.people.view.fragments
 
 import android.os.Bundle
 import android.view.View
@@ -10,25 +10,25 @@ import com.davidups.starwars.core.extensions.observe
 import com.davidups.starwars.core.extensions.showInfoAlertDialog
 import com.davidups.starwars.core.platform.BaseFragment
 import com.davidups.starwars.core.platform.viewBinding.viewBinding
-import com.davidups.starwars.features.movies.models.view.MoviesView
-import com.davidups.starwars.features.movies.view.adapters.MovieAdapter
-import com.davidups.starwars.features.movies.view.viewmodels.MoviesViewModel
+import com.davidups.starwars.features.people.models.view.PeopleView
+import com.davidups.starwars.features.people.view.adapters.PeopleAdapter
+import com.davidups.starwars.features.people.view.viewmodels.PeopleViewModel
 import com.kotlinpermissions.notNull
 import org.koin.android.ext.android.inject
 
-class MoviesListFragment : BaseFragment(R.layout.fragment_movies) {
+class PeopleFragment : BaseFragment(R.layout.fragment_movies) {
 
     private val binding by viewBinding(FragmentMoviesBinding::bind)
 
-    private val moviesViewModel: MoviesViewModel by
-    private val movieAdapter: MovieAdapter by inject()
+    private val peopleViewModel: PeopleViewModel by
+    private val peopleAdapter: PeopleAdapter by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        with(moviesViewModel) {
+        with(peopleViewModel) {
             observe(showSpinner, ::handleShowSpinner)
-            observe(movies, ::handleMovies)
+            observe(people, ::handleMovies)
             failure(failure, ::handleFailure)
         }
     }
@@ -41,19 +41,19 @@ class MoviesListFragment : BaseFragment(R.layout.fragment_movies) {
     }
 
     private fun initView() {
-        moviesViewModel.getMovies()
+        peopleViewModel.getPeople()
 
         binding.rvMovies.apply {
             layoutManager = GridLayoutManager(requireActivity(), 2)
-            adapter = movieAdapter
+            adapter = peopleAdapter
         }
     }
 
     private fun initListeners() {}
 
-    private fun handleMovies(movies: MoviesView?) {
-        movies.notNull { movies ->
-            movieAdapter.collection = movies.results.orEmpty()
+    private fun handleMovies(people: PeopleView?) {
+        people.notNull { movies ->
+            peopleAdapter.collection = movies.results.orEmpty()
         }
     }
 

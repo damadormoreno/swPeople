@@ -1,4 +1,4 @@
-package com.davidups.starwars.features.movies.view.adapters
+package com.davidups.starwars.features.people.view.adapters
 
 import android.view.View
 import android.view.ViewGroup
@@ -7,17 +7,17 @@ import com.davidups.skell.R
 import com.davidups.skell.core.extensions.inflate
 import com.davidups.skell.core.extensions.loadFromUrl
 import com.davidups.starwars.core.extensions.randomImage
-import com.davidups.starwars.features.movies.models.view.MovieView
+import com.davidups.starwars.features.people.models.view.PersonView
 import kotlin.properties.Delegates
 import kotlinx.android.synthetic.main.item_person_row.view.*
 
-class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
+class PeopleAdapter : RecyclerView.Adapter<PeopleAdapter.ViewHolder>() {
 
-    internal var collection: List<MovieView> by Delegates.observable(emptyList()) { _, _, _ ->
+    internal var collection: List<PersonView> by Delegates.observable(emptyList()) { _, _, _ ->
         notifyDataSetChanged()
     }
 
-    internal var clickListener: (MovieView) -> Unit = { }
+    internal var clickListener: (PersonView) -> Unit = { }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(parent.inflate(R.layout.item_person_row))
@@ -30,11 +30,11 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(movie: MovieView, clickListener: (MovieView) -> Unit) {
+        fun bind(person: PersonView, clickListener: (PersonView) -> Unit) {
             itemView.ivBanner.loadFromUrl(String.randomImage())
-            itemView.tvName.text = movie.title
+            itemView.tvName.text = person.name
             itemView.cvPerson.setOnClickListener {
-                clickListener(movie)
+                clickListener(person)
             }
         }
     }
