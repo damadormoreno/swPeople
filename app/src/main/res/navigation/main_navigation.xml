@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/movies">
+    app:startDestination="@id/people">
 
     <fragment
-        android:id="@+id/movies"
+        android:id="@+id/people"
         android:name="com.davidups.starwars.features.people.view.fragments.PeopleFragment"
-        android:label="Movies"
+        android:label="People"
         tools:layout="@layout/fragment_movies" />
 
     <fragment
