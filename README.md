@@ -23,7 +23,7 @@ Damn it! It seems the project has some kind of errors...could you help us to fix
 ### New features to add
 
 1.  Go to a person detail from people list.
-2.  Favourite ads
+2.  Favourite people using room database.
 
 ### Some optional tasks to do (bonus):
 
