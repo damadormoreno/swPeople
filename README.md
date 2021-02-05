@@ -10,7 +10,7 @@ We love clean code and beautiful layouts, structured implementation and testable
 
 This repository contains an Android app that retrieves a list of Star Wars Movies.
 
-![](https://raw.githubusercontent.com/talento-mobile/android-challenge/main/star-wars.png)
+![](https://raw.githubusercontent.com/talento-mobile/android-challenge/main/star-wars-mobile.png)
 
 ## Tasks
 
