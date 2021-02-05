@@ -1,10 +1,10 @@
 package com.davidups.starwars.core.di
 
-import com.davidups.starwars.features.movies.services.MoviesService
+import com.davidups.starwars.features.people.services.PeopleService
 import org.koin.dsl.module
 
 val dataSourceModule = module {
 
-    factory { MoviesService(get()) }
+    factory { PeopleService(get()) }
 
 }
