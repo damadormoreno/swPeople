@@ -25,7 +25,7 @@ Damn it! It seems the project has some kind of errors...could you help us to fix
 1.  Go to a person detail from people list.
 2.  Favourite people using room database.
 
-You can find the api documentation ![here](https://swapi.dev/api/)
+You can find the api documentation [here](https://swapi.dev/documentation)
 
 ### Some optional tasks to do (bonus):
 
