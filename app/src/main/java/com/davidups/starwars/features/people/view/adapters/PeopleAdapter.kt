@@ -34,7 +34,7 @@ class PeopleAdapter : RecyclerView.Adapter<PeopleAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(person: PersonView, clickListener: (PersonView) -> Unit, clickFavListener: (PersonView) -> Unit) {
-            itemView.ivBanner.loadFromUrl(String.randomImage())
+            itemView.ivBanner.loadFromUrl(person.urlImage)
             itemView.tvName.text = person.name
             when(person.isFavorite){
                 true -> itemView.favorite.setImageResource(R.drawable.ic_baseline_favorite_24)

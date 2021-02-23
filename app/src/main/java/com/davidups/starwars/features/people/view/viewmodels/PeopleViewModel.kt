@@ -13,6 +13,7 @@ import com.davidups.starwars.core.platform.BaseViewModel
 import com.davidups.starwars.features.people.data.models.data.Person
 import com.davidups.starwars.features.people.data.models.view.PeopleView
 import com.davidups.starwars.features.people.data.models.view.PersonView
+import com.davidups.starwars.features.people.domain.usecases.GetNextPage
 import com.davidups.starwars.features.people.domain.usecases.GetPeople
 import com.davidups.starwars.features.people.domain.usecases.SetFavorite
 import kotlinx.coroutines.Job
@@ -21,11 +22,14 @@ import kotlinx.coroutines.launch
 
 class PeopleViewModel(
     private val getPeople: GetPeople,
-    private val setFavorite: SetFavorite
+    private val setFavorite: SetFavorite,
+    private val getNextPage: GetNextPage
 ) : BaseViewModel() {
 
     private val _persons: MutableLiveData<List<PersonView>> = MutableLiveData()
     val persons: LiveData<List<PersonView>> = _persons
+
+    private val auxList: MutableList<PersonView> = mutableListOf()
 
     var getMoviesJob: Job? = null
 
@@ -48,6 +52,18 @@ class PeopleViewModel(
 
     }
 
+    suspend fun getNextPage() {
+        getNextPage(UseCase.None())
+            .onStart { handleShowSpinner(true) }
+            .onEach { handleShowSpinner(false) }
+            .catch { failure ->
+                handleFailure(Failure.CustomError(failure.hashCode(), failure.localizedMessage))
+            }
+            .collect {
+                it.fold(::handleFailure, ::handlePersons)
+            }
+    }
+
      suspend fun favorite(personView: PersonView) {
         val personEntity = personView.toPerson().toPersonEntity()
         viewModelScope.launch {
@@ -56,7 +72,7 @@ class PeopleViewModel(
     }
 
     private fun handlePersons(persons: List<Person>) {
-        persons.sortedBy { it.name }
-        _persons.value = persons.map { it.toPersonView() }
+        auxList.addAll(persons.map { it.toPersonView() })
+        _persons.value = auxList
     }
 }

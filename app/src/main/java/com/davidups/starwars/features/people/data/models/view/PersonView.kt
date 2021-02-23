@@ -1,5 +1,6 @@
 package com.davidups.starwars.features.people.data.models.view
 
+import com.davidups.starwars.core.extensions.randomImage
 import com.davidups.starwars.features.people.data.models.data.Person
 
 
@@ -13,7 +14,8 @@ data class PersonView(
     val eye_color: String,
     val birth_year: String,
     val gender: String,
-    var isFavorite: Boolean = false
+    var isFavorite: Boolean = false,
+    val urlImage: String = String.randomImage()
 ) {
     fun toPerson() = Person(
         id,

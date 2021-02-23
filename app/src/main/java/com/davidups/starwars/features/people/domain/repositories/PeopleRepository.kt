@@ -8,6 +8,7 @@ import com.davidups.starwars.core.functional.request
 import com.davidups.starwars.core.platform.NetworkHandler
 import com.davidups.starwars.core.platform.ServiceKOs
 import com.davidups.starwars.features.people.data.local.PeopleLocal
+import com.davidups.starwars.features.people.data.models.data.People
 import com.davidups.starwars.features.people.data.models.data.Person
 import com.davidups.starwars.features.people.data.models.entity.PeopleEntity
 import com.davidups.starwars.features.people.data.models.entity.PersonEntity
@@ -22,6 +23,7 @@ import java.util.*
 interface PeopleRepository {
 
     fun getPeople(): Flow<Either<Failure, List<Person>>>
+    fun getMorePeople(): Flow<Either<Failure, List<Person>>>
     fun setFavorite(personEntity: PersonEntity): Flow<Any>
 
     class Network(
@@ -50,6 +52,17 @@ interface PeopleRepository {
             }.flowOn(ioDispatcher)
         }
 
+        override fun getMorePeople(): Flow<Either<Failure, List<Person>>> {
+            return flow {
+                val page = shared.getInt("page", -1)
+                if ( page != -1) {
+                    emit(getNextPage(page))
+                }else {
+                    emit(Either.Left(Failure.NoMorePages()))
+                }
+            }.flowOn(ioDispatcher)
+        }
+
         override fun setFavorite(personEntity: PersonEntity): Flow<Any> {
            return flow {
                emit(peopleDB.setFavorite(personEntity))
@@ -61,6 +74,17 @@ interface PeopleRepository {
                 true -> request(service.getPeople(), { peopleEntity ->
                     saveInDb(peopleEntity)
                     peopleEntity.results?.toList()?.map { it.toPerson() } ?: listOf()
+                }, PeopleEntity.empty())
+                false -> Either.Left(Failure.NetworkConnection())
+            }
+        }
+
+        private fun getNextPage(page: Int): Either<Failure, List<Person>> {
+            return when (networkHandler.isConnected) {
+                true -> request(service.getPeopleByPage(page), { peopleEntity ->
+                    saveInDb(peopleEntity)
+                    peopleEntity.results?.toList()?.map { it.toPerson() } ?: listOf()
+                    //peopleDB.getPersons().map { it.toPerson() }
                 }, PeopleEntity.empty())
                 false -> Either.Left(Failure.NetworkConnection())
             }
@@ -78,6 +102,11 @@ interface PeopleRepository {
         private fun saveInDb(apiResult: PeopleEntity) {
 
             shared["time"] = Date().time
+            if (apiResult.next == null) {
+                shared["page"] = -1
+            } else {
+                shared["page"] = apiResult.next.split("page=").last().toInt()
+            }
 
             val persons = apiResult.results?: mutableListOf()
 

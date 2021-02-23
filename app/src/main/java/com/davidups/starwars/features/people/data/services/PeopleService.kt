@@ -9,4 +9,6 @@ class PeopleService(retrofit: Retrofit) : PeopleApi {
     private val peopleApi by lazy { retrofit.create(PeopleApi::class.java) }
 
     override fun getPeople():Call<PeopleEntity> = peopleApi.getPeople()
+    override fun getPeopleByPage(page: Int): Call<PeopleEntity> = peopleApi.getPeopleByPage(page)
+
 }

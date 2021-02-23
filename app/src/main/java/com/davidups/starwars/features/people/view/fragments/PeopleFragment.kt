@@ -1,9 +1,12 @@
 package com.davidups.starwars.features.people.view.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.davidups.skell.R
 import com.davidups.skell.databinding.FragmentMoviesBinding
 import com.davidups.starwars.core.exception.Failure
@@ -59,9 +62,19 @@ class PeopleFragment : BaseFragment(R.layout.fragment_movies) {
 
         peopleAdapter.clickFavListener = { personView ->
             personView.isFavorite = !personView.isFavorite
-            GlobalScope.launch { peopleViewModel.favorite(personView) }
+            lifecycleScope.launch { peopleViewModel.favorite(personView) }
             peopleAdapter.notifyDataSetChanged()
         }
+
+        binding.rvMovies.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val linearLayoutManager = binding.rvMovies.layoutManager as GridLayoutManager
+                if (linearLayoutManager.findLastCompletelyVisibleItemPosition() == peopleAdapter.collection.size - 1) {
+                    lifecycleScope.launch { peopleViewModel.getNextPage() }
+                }
+            }
+        })
     }
 
     private fun handleMovies(people: List<PersonView>?) {
@@ -75,9 +88,11 @@ class PeopleFragment : BaseFragment(R.layout.fragment_movies) {
 
     private fun handleFailure(failure: Failure?) {
         when (failure) {
-            is Failure.CustomError -> showErrorDialog(failure.errorMessage?:"Error")
+            is Failure.CustomError -> showErrorDialog(failure.errorMessage ?: "Error")
             is Failure.NetworkConnection -> showErrorDialog("Connection error")
             is Failure.ServerError -> showErrorDialog("Server error")
+            is Failure.NoMorePages ->
+                Log.d("PeopleFragment", "No more pages")
             else -> showErrorDialog("Error")
         }
 
