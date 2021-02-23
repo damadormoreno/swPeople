@@ -6,4 +6,6 @@
     <string name="generic_error_title">Upsss!</string>
     <string name="generic_error_body">Parece que tenemos problemas, estamos trabajando para solucionarlo. Por favor, vuelve a intentarlo más tarde.</string>
     <string name="common_error">Ha ocurrido un error</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.davidups.skell.core.exception
+package com.davidups.starwars.core.exception
 
 import android.content.Context
 import android.widget.Toast
@@ -8,7 +8,7 @@ import okhttp3.ResponseBody
 
 object ErrorHandler {
 
-    private const val NETWORK_ERROR_MESSAGE =
+    const val NETWORK_ERROR_MESSAGE =
         "Please check your internet connectivity and try again!"
     private const val EMPTY_RESPONSE = "Server returned empty response."
     const val NO_SUCH_DATA = "Data not found in the database"

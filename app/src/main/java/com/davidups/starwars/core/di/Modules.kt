@@ -1,10 +1,10 @@
-package com.davidups.skell.core.di
+package com.davidups.starwars.core.di
 
 import android.content.Context
 import android.content.SharedPreferences
 import com.davidups.skell.BuildConfig
 import com.davidups.skell.core.platform.ContextHandler
-import com.davidups.skell.core.platform.NetworkHandler
+import com.davidups.starwars.core.platform.NetworkHandler
 import com.davidups.starwars.features.people.view.adapters.PeopleAdapter
 import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient

@@ -1,44 +1,62 @@
 package com.davidups.starwars.features.people.view.viewmodels
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.davidups.skell.core.extensions.cancelIfActive
-import com.davidups.skell.core.interactor.UseCase
+import com.davidups.starwars.core.exception.Failure
+import com.davidups.starwars.core.interactor.UseCase
 import com.davidups.starwars.core.functional.Error
 import com.davidups.starwars.core.functional.Success
+import com.davidups.starwars.core.functional.map
 import com.davidups.starwars.core.platform.BaseViewModel
-import com.davidups.starwars.features.people.models.view.PeopleView
-import com.davidups.starwars.features.people.usecases.GetPeople
+import com.davidups.starwars.features.people.data.models.data.Person
+import com.davidups.starwars.features.people.data.models.view.PeopleView
+import com.davidups.starwars.features.people.data.models.view.PersonView
+import com.davidups.starwars.features.people.domain.usecases.GetPeople
+import com.davidups.starwars.features.people.domain.usecases.SetFavorite
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class PeopleViewModel(
-    private val getPeople: GetPeople
+    private val getPeople: GetPeople,
+    private val setFavorite: SetFavorite
 ) : BaseViewModel() {
 
-    var people = MutableLiveData<PeopleView>()
+    private val _persons: MutableLiveData<List<PersonView>> = MutableLiveData()
+    val persons: LiveData<List<PersonView>> = _persons
+
     var getMoviesJob: Job? = null
 
-    fun getPeople() {
+    init {
         getMoviesJob.cancelIfActive()
-        getMoviesJob = viewModelScope.launch {
+        getMoviesJob = viewModelScope.launch { getPeople() }
+    }
+
+    suspend fun getPeople() {
+
             getPeople(UseCase.None())
                 .onStart { handleShowSpinner(true) }
                 .onEach { handleShowSpinner(false) }
-                .catch { failure -> handleFailure(failure) }
-                .collect { result ->
-                    when (result) {
-                        is Success<PeopleView> -> {
-                            people.value = result.data
-                        }
-                        is Error -> {
-                        }
-                    }
+                .catch { failure ->
+                    handleFailure(Failure.CustomError(failure.hashCode(), failure.localizedMessage))
                 }
+                .collect {
+                    it.fold(::handleFailure, ::handlePersons)
+                }
+
+    }
+
+     suspend fun favorite(personView: PersonView) {
+        val personEntity = personView.toPerson().toPersonEntity()
+        viewModelScope.launch {
+            setFavorite(SetFavorite.Params(personEntity)).collect {  }
         }
+    }
+
+    private fun handlePersons(persons: List<Person>) {
+        persons.sortedBy { it.name }
+        _persons.value = persons.map { it.toPersonView() }
     }
 }

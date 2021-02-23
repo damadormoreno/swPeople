@@ -1,9 +1,9 @@
 package com.davidups.starwars
 
 import android.app.Application
-import com.davidups.skell.core.di.applicationModule
-import com.davidups.skell.core.di.databaseModule
-import com.davidups.skell.core.di.networkModule
+import com.davidups.starwars.core.di.applicationModule
+import com.davidups.starwars.core.di.databaseModule
+import com.davidups.starwars.core.di.networkModule
 import com.davidups.starwars.core.di.dataSourceModule
 import com.davidups.starwars.core.di.repositoryModule
 import com.davidups.starwars.core.di.useCaseModule

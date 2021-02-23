@@ -1,4 +1,4 @@
-package com.davidups.skell.core.exception
+package com.davidups.starwars.core.exception
 
 sealed class Failure {
     class NetworkConnection : Failure()

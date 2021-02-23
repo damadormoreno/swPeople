@@ -4,10 +4,10 @@
 
     <item
         android:id="@+id/people"
-        android:title="Movies"
+        android:title="People"
         app:showAsAction="always"
         android:orderInCategory="1"
-        android:icon="@drawable/ic_movies"/>
+        android:icon="@drawable/ic_people"/>
 
     <item
         android:id="@+id/planets"

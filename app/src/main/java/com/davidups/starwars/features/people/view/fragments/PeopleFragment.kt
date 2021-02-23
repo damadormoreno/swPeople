@@ -2,25 +2,29 @@ package com.davidups.starwars.features.people.view.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.davidups.skell.R
 import com.davidups.skell.databinding.FragmentMoviesBinding
+import com.davidups.starwars.core.exception.Failure
 import com.davidups.starwars.core.extensions.failure
 import com.davidups.starwars.core.extensions.observe
 import com.davidups.starwars.core.extensions.showInfoAlertDialog
 import com.davidups.starwars.core.platform.BaseFragment
 import com.davidups.starwars.core.platform.viewBinding.viewBinding
-import com.davidups.starwars.features.people.models.view.PeopleView
+import com.davidups.starwars.features.people.data.models.view.PersonView
 import com.davidups.starwars.features.people.view.adapters.PeopleAdapter
 import com.davidups.starwars.features.people.view.viewmodels.PeopleViewModel
-import com.kotlinpermissions.notNull
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class PeopleFragment : BaseFragment(R.layout.fragment_movies) {
 
     private val binding by viewBinding(FragmentMoviesBinding::bind)
 
-    private val peopleViewModel: PeopleViewModel by
+    private val peopleViewModel: PeopleViewModel by viewModel()
     private val peopleAdapter: PeopleAdapter by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +32,7 @@ class PeopleFragment : BaseFragment(R.layout.fragment_movies) {
 
         with(peopleViewModel) {
             observe(showSpinner, ::handleShowSpinner)
-            observe(people, ::handleMovies)
+            observe(persons, ::handleMovies)
             failure(failure, ::handleFailure)
         }
     }
@@ -41,7 +45,6 @@ class PeopleFragment : BaseFragment(R.layout.fragment_movies) {
     }
 
     private fun initView() {
-        peopleViewModel.getPeople()
 
         binding.rvMovies.apply {
             layoutManager = GridLayoutManager(requireActivity(), 2)
@@ -49,21 +52,40 @@ class PeopleFragment : BaseFragment(R.layout.fragment_movies) {
         }
     }
 
-    private fun initListeners() {}
-
-    private fun handleMovies(people: PeopleView?) {
-        people.notNull { movies ->
-            peopleAdapter.collection = movies.results.orEmpty()
+    private fun initListeners() {
+        peopleAdapter.clickListener = { person ->
+            findNavController().navigate(R.id.detailFragment)
         }
+
+        peopleAdapter.clickFavListener = { personView ->
+            personView.isFavorite = !personView.isFavorite
+            GlobalScope.launch { peopleViewModel.favorite(personView) }
+            peopleAdapter.notifyDataSetChanged()
+        }
+    }
+
+    private fun handleMovies(people: List<PersonView>?) {
+        peopleAdapter.collection = people.orEmpty()
+
     }
 
     private fun handleShowSpinner(show: Boolean?) {
         showSpinner(show ?: false)
     }
 
-    private fun handleFailure(failure: Throwable?) {
+    private fun handleFailure(failure: Failure?) {
+        when (failure) {
+            is Failure.CustomError -> showErrorDialog(failure.errorMessage?:"Error")
+            is Failure.NetworkConnection -> showErrorDialog("Connection error")
+            is Failure.ServerError -> showErrorDialog("Server error")
+            else -> showErrorDialog("Error")
+        }
+
+    }
+
+    private fun showErrorDialog(text: String) {
         showInfoAlertDialog {
-            setTitle(getString(R.string.common_error))
+            setTitle(text)
         }.show()
     }
 }

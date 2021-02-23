@@ -1,4 +1,4 @@
-package com.davidups.skell.core.interactor
+package com.davidups.starwars.core.interactor
 
 import kotlinx.coroutines.flow.Flow
 

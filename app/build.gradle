@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: "org.jlleitschuh.gradle.ktlint"
+apply plugin: "kotlin-kapt"
 
 subprojects {
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
@@ -115,4 +116,8 @@ dependencies {
     implementation 'ru.superjob:kotlin-permissions:1.0.3'
     // DataBinding
     implementation 'androidx.databinding:viewbinding:4.0.0'
+    //Room
+    implementation 'androidx.room:room-ktx:2.2.6'
+    kapt "androidx.room:room-compiler:2.2.6"
+
 }

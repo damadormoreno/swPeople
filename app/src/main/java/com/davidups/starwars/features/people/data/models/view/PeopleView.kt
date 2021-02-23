@@ -1,4 +1,4 @@
-package com.davidups.starwars.features.people.models.view
+package com.davidups.starwars.features.people.data.models.view
 
 import com.davidups.starwars.core.extensions.empty
 import java.io.Serializable

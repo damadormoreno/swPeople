@@ -1,27 +1,15 @@
-package com.davidups.skell.core.database
+package com.davidups.starwars.core.database
 
-/*
-@Database(entities = [], version = 2)
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import com.davidups.starwars.core.dao.PersonDAO
+import com.davidups.starwars.features.people.data.models.entity.PersonEntity
+
+
+@Database(entities = [PersonEntity::class], version = 1)
 abstract class AppDatabase: RoomDatabase() {
 
+    abstract fun personEntityDao(): PersonDAO
 
-    companion object {
-        private var INSTANCE: AppDatabase? = null
-
-        fun getAppDataBase(context: Context): AppDatabase? {
-            if (INSTANCE == null) {
-                synchronized(AppDatabase::class) {
-                    INSTANCE = Room.databaseBuilder(context.applicationContext,
-                        AppDatabase::class.java,
-                        "starWarsDB").build()
-                }
-            }
-            return INSTANCE
-        }
-
-        fun destroyDataBase() {
-            INSTANCE = null
-        }
-    }
 }
-*/
+

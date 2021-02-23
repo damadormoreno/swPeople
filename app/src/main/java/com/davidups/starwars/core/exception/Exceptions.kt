@@ -1,4 +1,4 @@
-package com.davidups.skell.core.exception
+package com.davidups.starwars.core.exception
 
 class NoResponseException(message: String? = ErrorHandler.UNKNOWN_ERROR) : Exception(message)
 

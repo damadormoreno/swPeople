@@ -2,13 +2,14 @@ package com.davidups.starwars.core.platform
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.davidups.starwars.core.exception.Failure
 
 abstract class BaseViewModel : ViewModel() {
 
-    var failure: MutableLiveData<Throwable> = MutableLiveData()
     var showSpinner: MutableLiveData<Boolean> = MutableLiveData()
+    var failure: MutableLiveData<Failure> = MutableLiveData()
 
-    protected fun handleFailure(failure: Throwable?) {
+    protected fun handleFailure(failure: Failure) {
         this.failure.value = failure
     }
 

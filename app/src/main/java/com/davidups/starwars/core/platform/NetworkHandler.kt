@@ -1,9 +1,9 @@
-package com.davidups.skell.core.platform
+package com.davidups.starwars.core.platform
 
 import android.content.Context
-import com.davidups.starwars.core.extensions.networkInfo
+import com.davidups.starwars.core.extensions.checkNetworkState
 
 class NetworkHandler
 (private val context: Context) {
-    val isConnected get() = context.networkInfo?.isConnected
+    val isConnected get() = context.checkNetworkState()
 }

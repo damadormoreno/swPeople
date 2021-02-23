@@ -1,6 +1,6 @@
-package com.davidups.starwars.features.people.models.data
+package com.davidups.starwars.features.people.data.models.data
 
-import com.davidups.starwars.features.people.models.view.PeopleView
+import com.davidups.starwars.features.people.data.models.view.PeopleView
 
 data class People(
     val count: Int?,

@@ -1,6 +1,6 @@
 package com.davidups.starwars.core.functional
 
-import com.davidups.skell.core.exception.ErrorHandler
+import com.davidups.starwars.core.exception.ErrorHandler
 
 sealed class State<out T : Any>
 

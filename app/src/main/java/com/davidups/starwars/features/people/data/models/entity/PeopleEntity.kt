@@ -1,7 +1,7 @@
-package com.davidups.starwars.features.people.models.entity
+package com.davidups.starwars.features.people.data.models.entity
 
 import com.davidups.starwars.core.extensions.empty
-import com.davidups.starwars.features.people.models.data.People
+import com.davidups.starwars.features.people.data.models.data.People
 
 data class PeopleEntity(
     val count: Int?,
