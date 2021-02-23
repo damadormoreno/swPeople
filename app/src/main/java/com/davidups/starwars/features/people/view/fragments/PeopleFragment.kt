@@ -57,7 +57,9 @@ class PeopleFragment : BaseFragment(R.layout.fragment_movies) {
 
     private fun initListeners() {
         peopleAdapter.clickListener = { person ->
-            findNavController().navigate(R.id.detailFragment)
+            val bundle = Bundle()
+            bundle.putSerializable("person", person)
+            findNavController().navigate(R.id.detailFragment, bundle)
         }
 
         peopleAdapter.clickFavListener = { personView ->

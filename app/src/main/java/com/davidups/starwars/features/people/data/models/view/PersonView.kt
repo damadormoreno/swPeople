@@ -2,6 +2,7 @@ package com.davidups.starwars.features.people.data.models.view
 
 import com.davidups.starwars.core.extensions.randomImage
 import com.davidups.starwars.features.people.data.models.data.Person
+import java.io.Serializable
 
 
 data class PersonView(
@@ -16,7 +17,7 @@ data class PersonView(
     val gender: String,
     var isFavorite: Boolean = false,
     val urlImage: String = String.randomImage()
-) {
+): Serializable {
     fun toPerson() = Person(
         id,
         name ,
