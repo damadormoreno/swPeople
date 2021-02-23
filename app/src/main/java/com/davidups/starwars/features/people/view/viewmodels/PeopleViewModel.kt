@@ -30,6 +30,9 @@ class PeopleViewModel(
     val persons: LiveData<List<PersonView>> = _persons
 
     private val auxList: MutableList<PersonView> = mutableListOf()
+    private var filteredList: MutableList<PersonView> = mutableListOf()
+
+    private var isFiltered: Boolean = false
 
     var getMoviesJob: Job? = null
 
@@ -69,6 +72,16 @@ class PeopleViewModel(
         viewModelScope.launch {
             setFavorite(SetFavorite.Params(personEntity)).collect {  }
         }
+    }
+
+    fun filterFavoriteList(){
+        isFiltered = !isFiltered
+        if (isFiltered) {
+            _persons.value = auxList.filter { it.isFavorite }.toMutableList()
+        } else {
+            _persons.value = auxList
+        }
+
     }
 
     private fun handlePersons(persons: List<Person>) {

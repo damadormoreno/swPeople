@@ -8,6 +8,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.davidups.skell.R
+import com.davidups.skell.core.extensions.onClick
 import com.davidups.skell.databinding.FragmentMoviesBinding
 import com.davidups.starwars.core.exception.Failure
 import com.davidups.starwars.core.extensions.failure
@@ -18,7 +19,6 @@ import com.davidups.starwars.core.platform.viewBinding.viewBinding
 import com.davidups.starwars.features.people.data.models.view.PersonView
 import com.davidups.starwars.features.people.view.adapters.PeopleAdapter
 import com.davidups.starwars.features.people.view.viewmodels.PeopleViewModel
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -75,6 +75,10 @@ class PeopleFragment : BaseFragment(R.layout.fragment_movies) {
                 }
             }
         })
+
+        binding.favoritesFloating.onClick {
+            peopleViewModel.filterFavoriteList()
+        }
     }
 
     private fun handleMovies(people: List<PersonView>?) {
